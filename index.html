@@ -671,11 +671,6 @@ function renderChecks(){
   var h='<div class="sumgrid">';
   ['crit','warn','info'].forEach(function(s){h+='<button class="sbox '+s+'" data-act="sev:'+s+'" aria-pressed="'+(S.chk.sev===s)+'"><div class="v">'+cnt[s]+'</div><div>'+esc(t(s))+'</div></button>'});
   h+='<button class="sbox" data-act="sev:" aria-pressed="'+(!S.chk.sev)+'"><div class="v">'+all.length+'</div><div>'+esc(t('allSev'))+'</div></button></div>';
-  var fc=fileChecks();
-  h+='<div class="panel" style="margin-bottom:14px"><div class="ph"><span>'+esc(t('cFile'))+'</span></div><div class="pb">';
-  if(!fc.length)h+='<div class="fcheck"><span class="pill ok">'+esc(t('iOk'))+'</span><span>'+esc(t('f_ok'))+'</span></div>';
-  fc.sort(function(a,b){return SEV_ORDER[a.sev]-SEV_ORDER[b.sev]}).forEach(function(f){h+='<div class="fcheck"><span class="pill '+f.sev+'">'+esc(t(f.sev))+'</span><span>'+esc(f.txt)+'</span></div>'});
-  h+='</div></div>';
   h+='<div class="fbar"><span class="lbl">'+esc(t('cTitle'))+' – '+esc(monthLabel(M.months[M.ri]))+'</span><select class="sel" data-chg="code"><option value="">'+esc(t('allChecks'))+'</option>';
   Object.keys(SEV).forEach(function(c){h+='<option value="'+c+'"'+(S.chk.code===c?' selected':'')+'>'+esc(T[S.lang].c[c][0])+'</option>'});
   h+='</select><input class="search" data-inp="cq" placeholder="'+esc(t('searchPh'))+'" value="'+esc(S.chk.q)+'"><span class="hint" style="flex:1">'+esc(t('cSumHint'))+'</span><button class="btn sec" data-act="xlsx">'+esc(t('downloadX'))+'</button></div><div id="chkList"></div>';
