@@ -200,6 +200,10 @@ footer b{color:var(--ink)}
 @media print{.nav,.fbar,.ibtn,.tab-inputs{display:none!important}.tw{max-height:none}body{background:#fff}}
 
 [hidden]{display:none!important}
+
+.help{background:var(--surface);border:1px solid var(--line);border-inline-start:5px solid var(--brand);border-radius:10px;padding:10px 14px}
+.help p{margin:5px 0;line-height:1.6}
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
 </style>
 </head>
 <body>
@@ -277,6 +281,27 @@ en:{title:'SAJCO Subcontractor Performance Report',sub:'Planning, Cost Control, 
  f_dupmonth:'More than one file was loaded for {m}. The last one was used.',
  f_stale:'{m}: {n} of {t} projects show no movement versus {p}. The update may be incomplete.',
  f_ok:'No file-level issues.',
+ cGuide:'What does each check mean?',cWhat:'What it checks',cWhy:'Why it matters',cLevels:'Levels',
+ lvCrit:'Critical: breaks the cumulative logic or changes the totals. Fix before sharing.',lvWarn:'Warning: worth reviewing, may be legitimate.',lvInfo:'Info: for awareness, explains movements in the numbers.',
+ cx:{
+ INV_DEC:['Compares each subcontractor’s cumulative invoiced value with the previous month. Invoiced is cumulative, so it should stay the same or grow, never fall.','A drop usually means a reversed or corrected invoice, a typing error, or an old file. Until fixed, the total invoiced is understated and efficiency is overstated.'],
+ RW_DEC:['Compares the cumulative revenue against the subcontractor’s work with the previous month. It should only stay the same or grow.','A drop means revenue was reversed or re-estimated. It changes the revenue efficiency and the remaining revenue, so confirm it is intended.'],
+ RC_DEC:['Compares the revenue against the subcontractor’s contract with the previous month.','The revenue baseline was reduced. This can be a legitimate revision of the project revenue, but it also changes % revenue realized, so confirm it.'],
+ CONTRACT_DEC:['Compares the subcontractor’s contract value with the previous month.','A lower contract value means a deduction, an omitted scope, or a data error. Confirm with the contracts team.'],
+ CONTRACT_INC:['Compares the subcontractor’s contract value with the previous month.','Usually an approved variation order or addendum. For awareness: check that the matching revenue was updated too.'],
+ SPIKE:['Looks for subcontractors whose invoiced value rose in one month by more than {spike}% of their contract value (current limit).','Could be an advance payment, a catch-up invoice for several months, or a typing error. Worth confirming the invoice is real.'],
+ INV_GT_CONTRACT:['Checks that the invoiced value does not exceed the subcontractor’s contract value.','Invoiced above the contract means over-billing, or a variation order / addendum that is missing from the sheet.'],
+ INV_NO_CONTRACT:['Finds subcontractors with invoiced value but a contract value of zero or blank.','The contract line is missing or was not entered, so the contract balance and % invoiced are wrong.'],
+ RW_GT_RC:['Checks that revenue against the subcontractor’s work does not exceed revenue against his contract.','Impossible logically: work cannot earn more than the full contract revenue. The revenue baseline is wrong or was not updated.'],
+ INV_GT_REVW:['Finds subcontractors invoiced more than the revenue the project earned against their work (efficiency below 100%). Same flag as “Over-invoiced” on the dashboard.','The project paid out more than it earned from that work. This is a cost and cash-flow risk and needs review.'],
+ INV_NO_REV:['Finds subcontractors with invoiced value but no revenue recorded against their work.','Cost is being incurred with no matching revenue. The revenue is not linked or not yet recorded.'],
+ NO_REV_BASE:['Finds contracts that have a value but no revenue against the contract.','Without the revenue baseline, % revenue realized and remaining revenue cannot be calculated for this contractor.'],
+ HIGH_EFF:['Finds subcontractors whose revenue against work is more than {hiEff}% of what they invoiced (current limit).','Revenue is far ahead of invoicing. Either the subcontractor invoices late, or the revenue is overstated.'],
+ DUP_LINE:['Finds two or more lines with the same subcontractor name and identical values in the same month.','The same line may have been entered twice, which doubles the contract, invoiced and revenue values in the totals.'],
+ DISAPPEARED:['Finds subcontractors that were in last month’s report but are missing from this month’s.','Their values drop out of the totals, so the totals fall. The line was deleted or renamed by mistake.'],
+ NEW_PROJECT:['Finds projects that did not exist in last month’s report.','For awareness: it explains a jump in the contract and revenue totals.'],
+ NEW_SC:['Finds new lines inside a project that already existed last month.','Usually a new contract or addendum. For awareness: confirm its revenue is also added.'],
+ PROJ_FROZEN:['Finds projects where the total invoiced and total revenue are exactly the same as last month.','The project was probably not updated this month. Totals look stable but they are stale.']},
  c:{INV_DEC:['Cumulative invoiced decreased','prev'],RW_DEC:['Revenue vs work decreased','prev'],RC_DEC:['Revenue vs contract decreased','prev'],
   CONTRACT_DEC:['Contract value decreased','prev'],CONTRACT_INC:['Contract value increased','prev'],SPIKE:['Invoicing spike in one month','prev'],
   INV_GT_CONTRACT:['Invoiced exceeds contract value','contract'],INV_NO_CONTRACT:['Invoiced with zero contract value','contract'],
@@ -321,6 +346,27 @@ ar:{title:'تقرير أداء مقاولي الباطن – شركة شبه ا�
  f_dupmonth:'تم تحميل أكثر من ملف لشهر {m}. تم استخدام آخر ملف.',
  f_stale:'{m}: {n} من أصل {t} مشروع بدون أي حركة مقارنة بشهر {p}. قد يكون التحديث غير مكتمل.',
  f_ok:'لا توجد ملاحظات على الملفات.',
+ cGuide:'ماذا يعني كل فحص؟',cWhat:'ماذا يفحص',cWhy:'لماذا هو مهم',cLevels:'المستويات',
+ lvCrit:'حرج: يخالف منطق التراكمي أو يغيّر الإجماليات. يجب تصحيحه قبل المشاركة.',lvWarn:'تحذير: يستحق المراجعة وقد يكون سليمًا.',lvInfo:'معلومة: للعلم، وتفسّر حركة الأرقام.',
+ cx:{
+ INV_DEC:['يقارن المفوتر التراكمي لكل مقاول بالشهر السابق. المفوتر تراكمي فيجب أن يثبت أو يزيد ولا ينقص أبدًا.','النقص غالبًا يعني مستخلصًا تم عكسه أو تصحيحه، أو خطأ إدخال، أو ملفًا قديمًا. حتى يُصحح، إجمالي المفوتر أقل من الحقيقة وكفاءة الإيراد أعلى منها.'],
+ RW_DEC:['يقارن الإيراد التراكمي مقابل أعمال المقاول بالشهر السابق. يجب أن يثبت أو يزيد فقط.','النقص يعني أن الإيراد عُكس أو أُعيد تقديره. هذا يغيّر كفاءة الإيراد والإيراد المتبقي، فتأكد أنه مقصود.'],
+ RC_DEC:['يقارن الإيراد مقابل عقد المقاول بالشهر السابق.','تم تخفيض أساس الإيراد. قد يكون تعديلًا سليمًا لإيراد المشروع لكنه يغيّر % الإيراد المحقق، فيجب تأكيده.'],
+ CONTRACT_DEC:['يقارن قيمة عقد المقاول بالشهر السابق.','انخفاض قيمة العقد يعني خصمًا أو استبعاد نطاق عمل أو خطأ في البيانات. أكّد مع إدارة العقود.'],
+ CONTRACT_INC:['يقارن قيمة عقد المقاول بالشهر السابق.','غالبًا أمر تغيير أو ملحق معتمد. للعلم: تأكد أن الإيراد المقابل تم تحديثه أيضًا.'],
+ SPIKE:['يبحث عن مقاولين زاد مفوترهم في شهر واحد بأكثر من {spike}% من قيمة عقدهم (الحد الحالي).','قد يكون دفعة مقدمة أو مستخلصًا متأخرًا يغطي عدة شهور أو خطأ إدخال. يستحق التأكد من صحة المستخلص.'],
+ INV_GT_CONTRACT:['يتأكد أن المفوتر لا يتجاوز قيمة عقد المقاول.','المفوتر الأعلى من العقد يعني زيادة في الفوترة، أو أمر تغيير / ملحق غير مدرج في الملف.'],
+ INV_NO_CONTRACT:['يبحث عن مقاولين لديهم مفوتر لكن قيمة عقدهم صفر أو فارغة.','بند العقد ناقص أو لم يُدخل، فيصبح رصيد العقد و% المفوتر غير صحيحين.'],
+ RW_GT_RC:['يتأكد أن الإيراد مقابل أعمال المقاول لا يتجاوز الإيراد مقابل عقده.','هذا غير منطقي: الأعمال لا يمكن أن تحقق أكثر من إيراد العقد كاملًا. أساس الإيراد خاطئ أو لم يُحدّث.'],
+ INV_GT_REVW:['يبحث عن مقاولين فُوترت لهم مستخلصات أعلى من الإيراد الذي حققه المشروع مقابل أعمالهم (كفاءة أقل من 100%). هو نفس تنبيه Over-invoiced في لوحة المؤشرات.','المشروع صرف أكثر مما حقق من هذه الأعمال. هذه مخاطرة على التكلفة والتدفق النقدي وتحتاج مراجعة.'],
+ INV_NO_REV:['يبحث عن مقاولين لديهم مفوتر بدون أي إيراد مسجل مقابل أعمالهم.','تكلفة تُصرف بلا إيراد مقابل. الإيراد غير مرتبط أو لم يُسجل بعد.'],
+ NO_REV_BASE:['يبحث عن عقود لها قيمة لكن بدون إيراد مقابل العقد.','بدون أساس الإيراد لا يمكن حساب % الإيراد المحقق ولا الإيراد المتبقي لهذا المقاول.'],
+ HIGH_EFF:['يبحث عن مقاولين إيراد أعمالهم أكبر من {hiEff}% مما فوتروه (الحد الحالي).','الإيراد متقدم جدًا على الفوترة. إما أن المقاول يتأخر في الفوترة، أو أن الإيراد مبالغ فيه.'],
+ DUP_LINE:['يبحث عن بندين أو أكثر بنفس اسم المقاول وبقيم متطابقة في نفس الشهر.','قد يكون البند أُدخل مرتين، فتتضاعف قيم العقد والمفوتر والإيراد في الإجماليات.'],
+ DISAPPEARED:['يبحث عن مقاولين كانوا في تقرير الشهر السابق وغير موجودين في هذا الشهر.','قيمهم تخرج من الإجماليات فتنخفض. غالبًا حُذف البند أو غُيّر اسمه بالخطأ.'],
+ NEW_PROJECT:['يبحث عن مشاريع لم تكن في تقرير الشهر السابق.','للعلم: يفسّر قفزة في إجمالي العقود والإيراد.'],
+ NEW_SC:['يبحث عن بنود جديدة داخل مشروع كان موجودًا الشهر السابق.','غالبًا عقد جديد أو ملحق. للعلم: تأكد أن إيراده أُضيف أيضًا.'],
+ PROJ_FROZEN:['يبحث عن مشاريع إجمالي المفوتر والإيراد فيها مطابق تمامًا للشهر السابق.','غالبًا لم يتم تحديث المشروع هذا الشهر. الإجماليات تبدو مستقرة لكنها قديمة.']},
  c:{INV_DEC:['انخفاض المفوتر التراكمي','prev'],RW_DEC:['انخفاض الإيراد مقابل الأعمال','prev'],RC_DEC:['انخفاض الإيراد مقابل العقد','prev'],
   CONTRACT_DEC:['انخفاض قيمة العقد','prev'],CONTRACT_INC:['زيادة قيمة العقد','prev'],SPIKE:['قفزة فوترة في شهر واحد','prev'],
   INV_GT_CONTRACT:['المفوتر يتجاوز قيمة العقد','contract'],INV_NO_CONTRACT:['مفوتر مع قيمة عقد صفر','contract'],
@@ -673,8 +719,8 @@ function renderChecks(){
   h+='<button class="sbox" data-act="sev:" aria-pressed="'+(!S.chk.sev)+'"><div class="v">'+all.length+'</div><div>'+esc(t('allSev'))+'</div></button></div>';
   h+='<div class="fbar"><span class="lbl">'+esc(t('cTitle'))+' – '+esc(monthLabel(M.months[M.ri]))+'</span><select class="sel" data-chg="code"><option value="">'+esc(t('allChecks'))+'</option>';
   Object.keys(SEV).forEach(function(c){h+='<option value="'+c+'"'+(S.chk.code===c?' selected':'')+'>'+esc(T[S.lang].c[c][0])+'</option>'});
-  h+='</select><input class="search" data-inp="cq" placeholder="'+esc(t('searchPh'))+'" value="'+esc(S.chk.q)+'"><span class="hint" style="flex:1">'+esc(t('cSumHint'))+'</span><button class="btn sec" data-act="xlsx">'+esc(t('downloadX'))+'</button></div><div id="chkList"></div>';
-  el.innerHTML=h;renderCheckList();
+  h+='</select><input class="search" data-inp="cq" placeholder="'+esc(t('searchPh'))+'" value="'+esc(S.chk.q)+'"><span class="hint" style="flex:1">'+esc(t('cSumHint'))+'</span><button class="btn sec" data-act="xlsx">'+esc(t('downloadX'))+'</button></div><div id="chkHelp" style="margin-bottom:14px"></div><div id="chkList"></div>';
+  el.innerHTML=h;renderCheckHelp();renderCheckList();
 }
 function renderCheckList(){
   var box=$('#chkList');if(!box)return;
@@ -692,6 +738,17 @@ function renderCheckList(){
         h+='<tr><td><div class="issue-t"><span class="sev '+x.sev+'"></span><span>'+esc(T[S.lang].c[x.code][0])+(rl?'<small>'+esc(rl)+'</small>':'')+'</span></div></td><td class="nm" dir="auto">'+(x.s?esc(x.s):'<span class="hint">'+esc(t('projLevel'))+'</span>')+'</td><td class="n">'+(x.ref==null?'':f0(x.ref))+'</td><td class="n">'+(x.cur==null?'':f0(x.cur))+'</td><td class="n '+(x.diff!=null&&x.diff<0&&x.code!=='HIGH_EFF'?'neg':'')+'">'+df+'</td></tr>'});
       h+='</tbody></table></div></div>'});
     h+='</details>'});
+  box.innerHTML=h;
+}
+
+function cxText(code,i){return T[S.lang].cx[code][i].replace('{spike}',S.cfg.spike).replace('{hiEff}',S.cfg.hiEff)}
+function renderCheckHelp(){
+  var box=$('#chkHelp');if(!box)return;var c=S.chk.code,h='';
+  if(c){h='<div class="help"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill '+SEV[c]+'">'+esc(t(SEV[c]))+'</span><b>'+esc(T[S.lang].c[c][0])+'</b></div><p><b>'+esc(t('cWhat'))+':</b> '+esc(cxText(c,0))+'</p><p><b>'+esc(t('cWhy'))+':</b> '+esc(cxText(c,1))+'</p></div>'}
+  else{
+    h='<details class="area"><summary><span>'+esc(t('cGuide'))+'</span></summary><div class="proj"><div class="help" style="margin-bottom:10px"><b>'+esc(t('cLevels'))+'</b><p><span class="pill crit">'+esc(t('crit'))+'</span> '+esc(t('lvCrit'))+'</p><p><span class="pill warn">'+esc(t('warn'))+'</span> '+esc(t('lvWarn'))+'</p><p><span class="pill info">'+esc(t('info'))+'</span> '+esc(t('lvInfo'))+'</p></div><div class="guide">';
+    Object.keys(SEV).sort(function(a,b){return SEV_ORDER[SEV[a]]-SEV_ORDER[SEV[b]]}).forEach(function(c){h+='<div class="help"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill '+SEV[c]+'">'+esc(t(SEV[c]))+'</span><b>'+esc(T[S.lang].c[c][0])+'</b></div><p><b>'+esc(t('cWhat'))+':</b> '+esc(cxText(c,0))+'</p><p><b>'+esc(t('cWhy'))+':</b> '+esc(cxText(c,1))+'</p></div>'});
+    h+='</div></div></details>'}
   box.innerHTML=h;
 }
 /* ---------- inputs ---------- */
@@ -794,7 +851,7 @@ document.addEventListener('change',function(ev){
   if(!c)return;
   if(c==='proj'){var i=S.projects.indexOf(el.value);if(el.checked&&i<0)S.projects.push(el.value);if(!el.checked&&i>=0)S.projects.splice(i,1);S.ddOpen=true;render()}
   else if(c==='projAll'){S.projects=[];S.ddOpen=true;render()}
-  else if(c==='code'){S.chk.code=el.value;renderCheckList()}
+  else if(c==='code'){S.chk.code=el.value;renderCheckHelp();renderCheckList()}
   else if(c==='rmonth'){S.reportMonth=el.value;buildModel();persist();render()}
   else if(c==='fmonth'){if(el.value){S.files[+el.getAttribute('data-i')].month=el.value;S.files.sort(function(a,b){return a.month<b.month?-1:1});buildModel();persist();render()}}
   else if(c==='cfg'){var n=+el.value;if(n>0){S.cfg[el.getAttribute('data-k')]=n;buildModel();persist();render()}}
